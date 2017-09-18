@@ -111,5 +111,4 @@ def summarize(tc,n):
 	
 if __name__ == "__main__":
 	n1 = sys.argv[1]
-	print "values of n1 is ",n1
 	summarize(module.tc,int(n1))
