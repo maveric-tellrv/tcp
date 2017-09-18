@@ -64,7 +64,7 @@ def summarize(tc,n):
 
 	ranking_with_tc = Counter(ranking) +  Counter(module.tc_rank)
 	sent_idx_rank = nlargest(n,ranking,key=ranking_with_tc.get)
-	for j in sent_idx_rank:
+	#for j in sent_idx_rank:
         #        print "TC",j," -> "+sentence[j]
 
 
