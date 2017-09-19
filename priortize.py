@@ -1,12 +1,11 @@
-#from testcase import tc
 from nltk.tokenize import word_tokenize,sent_tokenize
 from nltk.corpus import stopwords
 from string import punctuation
 from nltk.probability import FreqDist
 from heapq import nlargest,nsmallest
 from collections import defaultdict,Counter
-import sys,os
-import xlwt
+import sys,os,xlwt
+
 
 module = __import__(sys.argv[2].replace('.py', ''))
 
