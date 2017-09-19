@@ -5,7 +5,7 @@ from string import punctuation
 from nltk.probability import FreqDist
 from heapq import nlargest,nsmallest
 from collections import defaultdict,Counter
-import sys
+import sys,os
 import xlwt
 
 module = __import__(sys.argv[2].replace('.py', ''))
@@ -14,6 +14,7 @@ sentence = sent_tokenize(module.tc)
 #print (sentence)
 ranking = defaultdict(int)
 
+wb = xlwt.Workbook()
 
 
 def summarize(tc,n):
@@ -72,7 +73,7 @@ def summarize(tc,n):
 # Adding the workbook sheet for Priortized test considering Bugs and Feature
 	data = []
 	x = []
-	wb = xlwt.Workbook()
+	#wb = xlwt.Workbook()
 	ws = wb.add_sheet("Priority_Test")
 
 
@@ -81,12 +82,18 @@ def summarize(tc,n):
 		x = ("TC"+str(j),sentence[j])
 		data.append(x)
 #	print data
+	ws.write(0,0,"Test case No")
+        ws.write(0,1,"Test case title")
 
 	for i, row in enumerate(data):
     		for j, col in enumerate(row):
-        		ws.write(i, j, col)
+        		ws.write(i+1, j, col)
 	#ws.col(0).width = 256 * max([len(row[0]) for row in data])
         #wb.save("myworkbook.xls")
+
+
+#Adding the ranking values
+	excel_func("ranking","ranking.xlx",ranking_with_tc,"Tc_case","Rank_score")
 
 # Adding the workbook sheet for Priortized test 
 
@@ -108,7 +115,18 @@ def summarize(tc,n):
  
 	wb.save("myworkbook.xls")
 
-	
+	#excel_func("ranking","ranking.xlx",ranking)
+
+def excel_func(sheet_name,wb_name,dict_val,col1_name,col2_name):
+        ws = wb.add_sheet(sheet_name)
+	ws.write(0,0,col1_name)
+        ws.write(0,1,col2_name)
+
+        for i,row in enumerate(dict_val.items()):
+                for j,col in enumerate(row):
+                        ws.write(i+1,j,col)
+
 if __name__ == "__main__":
 	n1 = sys.argv[1]
 	summarize(module.tc,int(n1))
+	os.system('libreoffice myworkbook.xls &')
