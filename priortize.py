@@ -8,9 +8,9 @@ import sys,os,xlwt,xlrd,unicodedata
 
 from testcase import tc_rank
 
-if('.py' in sys.argv[2]):
+if('.py' in sys.argv[1]):
 	print ("###found py file##")
-	module = __import__(sys.argv[2].replace('.py', ''))
+	module = __import__(sys.argv[1].replace('.py', ''))
 	#sentence = sent_tokenize(module.tc)
 	#print sentence
 wb = xlwt.Workbook()
@@ -32,7 +32,9 @@ def summarize(tc,n=10):
 	#sents = excel_read('workitems.xlsx',1)
 	
 	assert n <= len(sentence)
-	if('.py' in sys.argv[2]):
+	n = len(sentence)
+
+	if('.py' in sys.argv[1]):
 		word_sent= word_tokenize(tc.lower())
 	
 	#creating a string reading the excel list data to single string
@@ -64,10 +66,10 @@ def summarize(tc,n=10):
         print ranking
 	
 	#Setting the rank afer adding the tc_rank dictionary values from testcase.py file
-	if('.py' in sys.argv[2]):
+	if('.py' in sys.argv[1]):
 		ranking_with_tc = Counter(ranking) +  Counter(module.tc_rank)
 
-	if('.xlsx' in sys.argv[2]):
+	if('.xlsx' in sys.argv[1]):
 		ranking_with_tc = Counter(ranking) +  Counter(tc_rank)
  
 
@@ -161,12 +163,12 @@ def excel_read(sheet_name,col_number):
 	#print(val)
 
 if __name__ == "__main__":
-	print ("1. Enter the number of test cases\n2. Enter the filename xlsx or py")	
+	print ("1.Enter the filename xlsx or py\n")	
 		
-	n1 = sys.argv[1]
-	if('.py' in sys.argv[2]):
+	#n1 = sys.argv[1]
+	if('.py' in sys.argv[1]):
 		summarize(module.tc,int(n1))
 	else:
-		summarize(excel_read(sys.argv[2],0),int(n1))		
+		summarize(excel_read(sys.argv[1],0),1)		
 	os.system('libreoffice myworkbook.xls &')
 	#excel_read('workitems.xlsx',1)
